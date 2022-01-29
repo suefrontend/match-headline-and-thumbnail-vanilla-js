@@ -1,5 +1,5 @@
-const headline = document.querySelector('.headline');
-const ul = document.querySelector('.thumbnails');
+const headlineContainer = document.querySelector('.headline');
+const thumbnailsContainer = document.querySelector('.thumbnails');
 
 async function fetchData() {
 	const data = await fetch(
@@ -10,33 +10,48 @@ async function fetchData() {
 	return response;
 }
 
-async function displayHeadline() {
+async function renderHeadline() {
 	const res = await fetchData();
+	const data = res.items;
+
+	const fragment = document.createDocumentFragment();
+
+	data.map((el, index) => {
+		const li = document.createElement('li');
+		const span = document.createElement('span');
+
+		li.innerHTML = el.title;
+		span.innerHTML = index;
+		fragment.appendChild(li).appendChild(span);
+	});
+
+	headlineContainer.appendChild(fragment);
+}
+
+async function renderThumbnails() {
+	const res = await fetchData();
+	const fragment = document.createDocumentFragment();
+
 	res.items.map((el, index) => {
-		console.log('el', el);
-		console.log('index', index);
-		headline.append(el.title);
-	});
-}
-
-// render news headline, thumbnail and ID on browser
-async function displayData() {
-	const res = await fetchData();
-	res.items.map((el) => {
+		const li = document.createElement('li');
 		const img = document.createElement('img');
-
+		const span = document.createElement('span');
 		img.src = el.thumbnail;
+		span.innerHTML = index;
 
-		// what is the difference between append and appendChild? they both work
-		ul.append(img);
+		li.appendChild(img);
+		li.appendChild(span);
+		fragment.appendChild(li);
 	});
+
+	thumbnailsContainer.appendChild(fragment);
 }
 
-displayHeadline();
-displayData();
-
-// TODO: display just one headline
+renderHeadline();
+renderThumbnails();
 
 // TODO: display just one headline at random
 
 // TODO: add click events to thumbnails
+
+// TODO: shuffle thumbnails

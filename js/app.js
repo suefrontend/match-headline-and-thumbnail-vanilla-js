@@ -9,6 +9,8 @@ async function fetchData() {
 	return response;
 }
 
+const indexOfAnswer = Math.floor(Math.random() * 10);
+
 async function renderHeadline() {
 	const res = await fetchData();
 	const data = res.items;
@@ -18,7 +20,6 @@ async function renderHeadline() {
   // TODO: display just one headline at random
 
   // 1. generate a random integer in the range of 0 to 9
-  const indexOfAnswer = Math.floor(Math.random() * 10);
   headline.innerHTML = data[indexOfAnswer].title;
   
   // 2. append index to the headline
@@ -33,18 +34,38 @@ async function renderThumbnails() {
 	const res = await fetchData();
 	const fragment = document.createDocumentFragment();
 
-	res.items.map((el, index) => {
-		const li = document.createElement('li');
+  // TODO: display 4 random thumbnails (one of the thumbnail must be corresponding to the headline)
+  
+  // 1. create an array with 9 random numbers without duplicate
+  const indices = [indexOfAnswer];
+  const lengthOfThumnailIndices = 10;
+  
+  for (let i = 0; i < lengthOfThumnailIndices; i++) {
+    let randomThumbnailIndex = Math.floor(Math.random() * 9);
+        
+    if(!indices.includes(randomThumbnailIndex)) {
+
+      indices.push(randomThumbnailIndex)
+    }
+  }
+
+  const thumbnailIndices = indices.slice(0, 4)
+  
+  // 2. shuffle the array
+  thumbnailIndices.sort(() => Math.random() - 0.5)
+  
+  // 3. create elements for four thumbnails
+  const selectedThumbnails = thumbnailIndices.map((el, index) => {    
+    const li = document.createElement('li');
 		const img = document.createElement('img');
 		const span = document.createElement('span');
-		img.src = el.thumbnail;
-		span.innerHTML = index;
+		img.src = res.items[el].thumbnail;
+		span.innerHTML = el;
 
 		li.appendChild(img);
 		li.appendChild(span);
 		fragment.appendChild(li);
-	});
-
+  })  
 	thumbnailsContainer.appendChild(fragment);
 }
 
@@ -52,5 +73,3 @@ renderHeadline();
 renderThumbnails();
 
 // TODO: add click events to thumbnails
-
-// TODO: shuffle thumbnails

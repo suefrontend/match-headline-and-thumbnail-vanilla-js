@@ -1,4 +1,4 @@
-const headlineContainer = document.querySelector('.headline');
+const headline = document.querySelector('.headline__text');
 const thumbnailsContainer = document.querySelector('.thumbnails');
 
 async function fetchData() {
@@ -6,7 +6,6 @@ async function fetchData() {
 		'https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Frss.cbc.ca%2Flineup%2Ftopstories.xml'
 	);
 	const response = await data.json();
-
 	return response;
 }
 
@@ -16,16 +15,18 @@ async function renderHeadline() {
 
 	const fragment = document.createDocumentFragment();
 
-	data.map((el, index) => {
-		const li = document.createElement('li');
-		const span = document.createElement('span');
+  // TODO: display just one headline at random
 
-		li.innerHTML = el.title;
-		span.innerHTML = index;
-		fragment.appendChild(li).appendChild(span);
-	});
-
-	headlineContainer.appendChild(fragment);
+  // 1. generate a random integer in the range of 0 to 9
+  const indexOfAnswer = Math.floor(Math.random() * 10);
+  headline.innerHTML = data[indexOfAnswer].title;
+  
+  // 2. append index to the headline
+  data.map((el, index) => {    
+    if(el.title === data[indexOfAnswer].title) {
+      headline.append(` - ${index}`)
+    }
+  })
 }
 
 async function renderThumbnails() {
@@ -49,8 +50,6 @@ async function renderThumbnails() {
 
 renderHeadline();
 renderThumbnails();
-
-// TODO: display just one headline at random
 
 // TODO: add click events to thumbnails
 

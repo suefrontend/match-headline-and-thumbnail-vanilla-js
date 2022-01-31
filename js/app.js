@@ -1,5 +1,5 @@
 const headline = document.querySelector('.headline__text');
-const thumbnailsContainer = document.querySelector('.thumbnails');
+const thumbnailsContainer = document.querySelector('.thumbnail');
 
 async function fetchData() {
 	const data = await fetch(
@@ -56,6 +56,7 @@ async function renderThumbnails() {
   // 3. create elements for four thumbnails
   thumbnailIndices.forEach((el, index) => {    
     const li = document.createElement('li');
+    li.classList.add(`thumbnail__item-${el}`);
 		const img = document.createElement('img');
 		const span = document.createElement('span');
 		img.src = res.items[el].thumbnail;
@@ -72,9 +73,21 @@ renderHeadline();
 renderThumbnails();
 
 // TODO: add click events to thumbnails
+thumbnailsContainer.addEventListener('click', function(e) {
 
-// TODO: add condition when fire thumbnail click event
+  // TODO: add condition when fire thumbnail click event
+  if(e.target.parentNode.className.includes(indexOfAnswer)) {
+
+      // TODO: change text in <span>
+      e.target.parentNode.children[1].textContent += 'Correct!';
+
+    } else {
+      e.target.parentNode.children[1].textContent += 'Wrong!';
+  }
+
+})
+
 
 // TODO: display news detail when click on thumbnail
 
-// TODO: add reset button
+// TODO: add reset/load another question button

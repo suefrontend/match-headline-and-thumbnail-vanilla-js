@@ -38,13 +38,12 @@ async function renderThumbnails() {
   
   // 1. create an array with 9 random numbers without duplicate
   const indices = [indexOfAnswer];
-  const lengthOfThumnailIndices = 10;
+  const numOfTotalThumbnails = 10;
   
-  for (let i = 0; i < lengthOfThumnailIndices; i++) {
+  for (let i = 0; i < numOfTotalThumbnails; i++) {
     let randomThumbnailIndex = Math.floor(Math.random() * 9);
         
     if(!indices.includes(randomThumbnailIndex)) {
-
       indices.push(randomThumbnailIndex)
     }
   }
@@ -55,7 +54,7 @@ async function renderThumbnails() {
   thumbnailIndices.sort(() => Math.random() - 0.5)
   
   // 3. create elements for four thumbnails
-  const selectedThumbnails = thumbnailIndices.map((el, index) => {    
+  thumbnailIndices.forEach((el, index) => {    
     const li = document.createElement('li');
 		const img = document.createElement('img');
 		const span = document.createElement('span');
@@ -73,3 +72,9 @@ renderHeadline();
 renderThumbnails();
 
 // TODO: add click events to thumbnails
+
+// TODO: add condition when fire thumbnail click event
+
+// TODO: display news detail when click on thumbnail
+
+// TODO: add reset button

@@ -64,9 +64,7 @@ async function renderThumbnails() {
     li.classList.add(`thumbnail__item-${el}`);
 		const img = document.createElement('img');
 		const span = document.createElement('span');
-    
-
-		img.src = res.items[el].thumbnail;
+    img.src = res.items[el].thumbnail;
 		span.innerHTML = el;
 
 		li.appendChild(img);
@@ -81,33 +79,29 @@ renderThumbnails();
 
 // TODO: add click events to thumbnails
 
-  thumbnailsContainer.addEventListener('click', function(e) {
+thumbnailsContainer.addEventListener('click', function(e) {
 
-
-    if(isPlaying) {
-      
-      // TODO: add condition when fire thumbnail click event
-      if(e.target.parentNode.className.includes(indexOfAnswer)) {
+  if(isPlaying) {
     
-        const btn = document.createElement('button')
-    
-          // TODO: change text in <span>
-          e.target.parentNode.children[1].textContent += 'Correct!';
-          e.target.parentNode.appendChild(btn);
-          btn.textContent = 'See Detail';
-          isPlaying = false;
-          console.log("isPlaying", isPlaying)
-    
-          btn.addEventListener('click', function() {
-            render(indexOfAnswer);
-          })
-    
-    
-        } else {
-          e.target.parentNode.children[1].textContent += 'Wrong!';
-      }
+    // TODO: add condition when fire thumbnail click event
+    if(e.target.parentNode.className.includes(indexOfAnswer)) {
+  
+      const btn = document.createElement('button')
+  
+        // TODO: change text in <span>
+        e.target.parentNode.children[1].textContent += 'Correct!';
+        e.target.parentNode.appendChild(btn);
+        btn.textContent = 'See Detail';
+        isPlaying = false;
+  
+        btn.addEventListener('click', function() {
+          render(indexOfAnswer);
+        })    
+      } else {
+        e.target.parentNode.children[1].textContent += 'Wrong!';
     }
-  })
+  }
+})
 
 
 // TODO: display news detail when correct thumbnail was clicked

@@ -13,7 +13,7 @@ async function fetchData() {
 	return response;
 }
 
-const indexOfAnswer = Math.floor(Math.random() * 10);
+let indexOfAnswer;
 console.log("answer", indexOfAnswer)
 
 async function renderHeadline() {
@@ -76,6 +76,7 @@ async function renderThumbnails() {
 
 renderHeadline();
 renderThumbnails();
+generateAnswer();
 
 // TODO: add click events to thumbnails
 
@@ -112,14 +113,33 @@ async function render(answer) {
   const data = res.items;
   
   const markup = `
+    <button class="btn btn-close" onClick="resetQuiz()">X CLOSE</button>
     <h3>TITLE:   ${data[answer].title}</h3>
     <span> ${data[answer].pubDate}</span>
     <p>DESCRIPTION: ${data[answer].description}</p>
     <a href=${data[answer].link} target="_blank">Read on CBC website</a>
   `;
 
-  detail.innerHTML = markup;
+  detail.innerHTML += markup;
 
 }
 
-// TODO: add reset/load another question button
+function generateAnswer() {
+  indexOfAnswer = Math.floor(Math.random() * 10);
+  return indexOfAnswer;
+}
+
+function resetQuiz() {
+  console.log("CLOSE BTN");
+
+  //
+  detail.innerHTML = '';
+  headline.innerHTML = ''
+  thumbnailsContainer.innerHTML = ''
+
+  renderHeadline();
+  renderThumbnails();
+  generateAnswer();
+  console.log("answer after close", indexOfAnswer)
+  isPlaying = true;
+}

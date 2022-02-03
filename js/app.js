@@ -1,5 +1,9 @@
 const headline = document.querySelector('.headline__text');
 const thumbnailsContainer = document.querySelector('.thumbnail');
+const detail = document.querySelector('.detail');
+// const closeBtn = document.querySelector('.btn__close');
+
+let isPlaying = true;
 
 async function fetchData() {
 	const data = await fetch(
@@ -10,6 +14,7 @@ async function fetchData() {
 }
 
 const indexOfAnswer = Math.floor(Math.random() * 10);
+console.log("answer", indexOfAnswer)
 
 async function renderHeadline() {
 	const res = await fetchData();
@@ -59,6 +64,8 @@ async function renderThumbnails() {
     li.classList.add(`thumbnail__item-${el}`);
 		const img = document.createElement('img');
 		const span = document.createElement('span');
+    
+
 		img.src = res.items[el].thumbnail;
 		span.innerHTML = el;
 
@@ -73,21 +80,52 @@ renderHeadline();
 renderThumbnails();
 
 // TODO: add click events to thumbnails
-thumbnailsContainer.addEventListener('click', function(e) {
 
-  // TODO: add condition when fire thumbnail click event
-  if(e.target.parentNode.className.includes(indexOfAnswer)) {
-
-      // TODO: change text in <span>
-      e.target.parentNode.children[1].textContent += 'Correct!';
-
-    } else {
-      e.target.parentNode.children[1].textContent += 'Wrong!';
-  }
-
-})
+  thumbnailsContainer.addEventListener('click', function(e) {
 
 
-// TODO: display news detail when click on thumbnail
+    if(isPlaying) {
+      
+      // TODO: add condition when fire thumbnail click event
+      if(e.target.parentNode.className.includes(indexOfAnswer)) {
+    
+        const btn = document.createElement('button')
+    
+          // TODO: change text in <span>
+          e.target.parentNode.children[1].textContent += 'Correct!';
+          e.target.parentNode.appendChild(btn);
+          btn.textContent = 'See Detail';
+          isPlaying = false;
+          console.log("isPlaying", isPlaying)
+    
+          btn.addEventListener('click', function() {
+            render(indexOfAnswer);
+          })
+    
+    
+        } else {
+          e.target.parentNode.children[1].textContent += 'Wrong!';
+      }
+    }
+  })
+
+
+// TODO: display news detail when correct thumbnail was clicked
+
+async function render(answer) {
+
+  const res = await fetchData()
+  const data = res.items;
+  
+  const markup = `
+    <h3>TITLE:   ${data[answer].title}</h3>
+    <span> ${data[answer].pubDate}</span>
+    <p>DESCRIPTION: ${data[answer].description}</p>
+    <a href=${data[answer].link} target="_blank">Read on CBC website</a>
+  `;
+
+  detail.innerHTML = markup;
+
+}
 
 // TODO: add reset/load another question button

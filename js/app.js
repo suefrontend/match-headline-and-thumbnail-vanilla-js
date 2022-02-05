@@ -14,7 +14,6 @@ async function fetchData() {
 }
 
 let indexOfAnswer;
-console.log("answer", indexOfAnswer)
 
 async function renderHeadline() {
 	const res = await fetchData();
@@ -130,9 +129,7 @@ function generateAnswer() {
 }
 
 function resetQuiz() {
-  console.log("CLOSE BTN");
 
-  //
   detail.innerHTML = '';
   headline.innerHTML = ''
   thumbnailsContainer.innerHTML = ''
@@ -140,6 +137,8 @@ function resetQuiz() {
   renderHeadline();
   renderThumbnails();
   generateAnswer();
-  console.log("answer after close", indexOfAnswer)
   isPlaying = true;
+
 }
+
+// TODO: fix - if answer is wrong make it display 'wrong' only once

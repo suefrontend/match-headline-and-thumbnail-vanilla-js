@@ -1,7 +1,6 @@
-const headline = document.querySelector('.headline__text');
+const headline = document.querySelector('.headline__title');
 const thumbnailsContainer = document.querySelector('.thumbnail');
 const detail = document.querySelector('.detail');
-// const closeBtn = document.querySelector('.btn__close');
 
 let isPlaying = true;
 
@@ -26,12 +25,6 @@ async function renderHeadline() {
   // 1. generate a random integer in the range of 0 to 9
   headline.innerHTML = data[indexOfAnswer].title;
   
-  // 2. append index to the headline
-  data.map((el, index) => {    
-    if(el.title === data[indexOfAnswer].title) {
-      headline.append(` - ${index}`)
-    }
-  })
 }
 
 async function renderThumbnails() {
@@ -61,12 +54,16 @@ async function renderThumbnails() {
   thumbnailIndices.forEach((el, index) => {    
     const li = document.createElement('li');
     li.classList.add(`thumbnail__item-${el}`);
+    const figure = document.createElement('figure');
+    figure.classList.add('thumbnail__item__img');
 		const img = document.createElement('img');
-		const span = document.createElement('span');
     img.src = res.items[el].thumbnail;
-		span.innerHTML = el;
+		const span = document.createElement('span');
+    span.classList.add('thumbnail__item__text')
+		span.innerHTML = ' ';
 
-		li.appendChild(img);
+		li.appendChild(figure);
+    figure.appendChild(img);
 		li.appendChild(span);
 		fragment.appendChild(li);
   })  
@@ -84,21 +81,24 @@ thumbnailsContainer.addEventListener('click', function(e) {
   if(isPlaying) {
     
     // TODO: add condition when fire thumbnail click event
-    if(e.target.parentNode.className.includes(indexOfAnswer)) {
+    if(e.target.parentNode.parentNode.className.includes(indexOfAnswer)) {
+      console.log("correct?")
   
-      const btn = document.createElement('button')
+      // const btn = document.createElement('button')
   
         // TODO: change text in <span>
-        e.target.parentNode.children[1].textContent += 'Correct!';
-        e.target.parentNode.appendChild(btn);
-        btn.textContent = 'See Detail';
+        e.target.parentNode.parentNode.children[1].textContent += 'Correct! Click for Detail';
+        // e.target.parentNode.parentNode.appendChild(btn);
+        // btn.textContent = 'See Detail';
         isPlaying = false;
   
-        btn.addEventListener('click', function() {
+        e.target.parentNode.parentNode.children[1].addEventListener('click', function() {
           render(indexOfAnswer);
         })    
       } else {
-        e.target.parentNode.children[1].textContent += 'Wrong!';
+        console.log("correct?")
+        e.target.parentNode.parentNode.children[1].classList.add('text-lower-opacity')
+        e.target.parentNode.parentNode.children[1].textContent += 'Incorrect';
     }
   }
 })

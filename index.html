@@ -4,33 +4,39 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
 		<title>Match Thumbnail and Headline</title>
-    <style>
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      ul li {
-        width: 50%;
-      }
-    </style>
 	</head>
 	<body>
-    <div class="video-wrapper">
-    <video autoplay muted loop class="video">
-      <source src="images/background.mp4" type="video/mp4">
-    </video>
-  </div>
+    <div class="wrapper">
 
-		<div class="container">
-      <div class="headline">
-        <h2 class="headline__text"></h2>
+      <div class="video-wrapper">
+        <video autoplay muted loop class="video">
+          <source src="images/background.mp4" type="video/mp4">
+        </video>
       </div>
-      <ul class="thumbnail"></ul>
-      <hr />
-      <div class="detail"></div>
+
+      <div class="container">
+        <div class="content">
+          <div class="headline">
+            <div class="headline__content">
+              <h2 class="headline__title"></h2>
+              <p class="headline__text text-lower-opacity">[ Choose thumbnail best matches the headline ]</p>
+            </div>
+          </div>
+
+          <div class="thumbnails-container">
+            <ul class="thumbnail"></ul>    
+            <div class="detail"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
+
 		<script src="js/app.js"></script>
 	</body>
 </html>

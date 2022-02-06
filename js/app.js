@@ -1,5 +1,5 @@
-const headline = document.querySelector('.headline__title');
-const thumbnailsContainer = document.querySelector('.thumbnail');
+const headline = document.querySelector('.headline__heading');
+const thumbnailsContainer = document.querySelector('.thumbnail__list');
 const detail = document.querySelector('.detail');
 
 let isPlaying = true;
@@ -70,9 +70,6 @@ async function renderThumbnails() {
 	thumbnailsContainer.appendChild(fragment);
 }
 
-renderHeadline();
-renderThumbnails();
-generateAnswer();
 
 // TODO: add click events to thumbnails
 
@@ -82,23 +79,19 @@ thumbnailsContainer.addEventListener('click', function(e) {
     
     // TODO: add condition when fire thumbnail click event
     if(e.target.parentNode.parentNode.className.includes(indexOfAnswer)) {
-      console.log("correct?")
-  
-      // const btn = document.createElement('button')
-  
+    
         // TODO: change text in <span>
-        e.target.parentNode.parentNode.children[1].textContent += 'Correct! Click for Detail';
-        // e.target.parentNode.parentNode.appendChild(btn);
-        // btn.textContent = 'See Detail';
+        e.target.parentNode.classList.add('thumbnail-overlay')
+        
+        e.target.parentNode.parentNode.children[1].textContent += 'Correct! Click for Detail';   
         isPlaying = false;
   
         e.target.parentNode.parentNode.children[1].addEventListener('click', function() {
           render(indexOfAnswer);
         })    
       } else {
-        console.log("correct?")
         e.target.parentNode.parentNode.children[1].classList.add('text-lower-opacity')
-        e.target.parentNode.parentNode.children[1].textContent += 'Incorrect';
+        e.target.parentNode.parentNode.children[1].textContent = 'Incorrect';
     }
   }
 })
@@ -111,12 +104,24 @@ async function render(answer) {
   const res = await fetchData()
   const data = res.items;
   
+  const desc = data[answer].description;
+
+  const detailImg = desc.match(/<img[^>]+>/gi);
+  const detailTxt = desc.match(/<p>(.*?)<\/p>/g);
+
   const markup = `
-    <button class="btn btn-close" onClick="resetQuiz()">X CLOSE</button>
-    <h3>TITLE:   ${data[answer].title}</h3>
-    <span> ${data[answer].pubDate}</span>
-    <p>DESCRIPTION: ${data[answer].description}</p>
-    <a href=${data[answer].link} target="_blank">Read on CBC website</a>
+    <button class="btn-close" onClick="resetQuiz()">X CLOSE</button>
+    <div class="detail__img">
+      ${detailImg}
+    </div>
+    <div class="detail__content">
+      <span class="detail__date"> ${data[answer].pubDate}</span>
+      <h3 class="detail__heading">${data[answer].title}</h3>
+      ${detailTxt}
+      <div class="detail__link">
+        <a class="btn btn-link" href=${data[answer].link} target="_blank">Read on CBC website</a>
+      </div>
+    </div>
   `;
 
   detail.innerHTML += markup;
@@ -129,7 +134,6 @@ function generateAnswer() {
 }
 
 function resetQuiz() {
-
   detail.innerHTML = '';
   headline.innerHTML = ''
   thumbnailsContainer.innerHTML = ''
@@ -138,7 +142,10 @@ function resetQuiz() {
   renderThumbnails();
   generateAnswer();
   isPlaying = true;
-
 }
 
-// TODO: fix - if answer is wrong make it display 'wrong' only once
+document.addEventListener('DOMContentLoaded', () => {
+  renderHeadline();
+  renderThumbnails();
+  generateAnswer();
+})

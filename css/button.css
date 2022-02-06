@@ -1,0 +1,9 @@
+.btn {
+  display: block;
+  border-radius: 3px;
+  text-align: center;
+  padding: 10px 0;
+  background: linear-gradient(180deg, #d20404 0%, #c30404 50%);
+  text-decoration: none;
+  color: #fff;
+}

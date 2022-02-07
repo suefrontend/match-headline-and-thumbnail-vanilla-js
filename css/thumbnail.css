@@ -32,7 +32,7 @@
   width: 100%;
   margin-bottom: 5px;
 }
-.thumbnail-overlay {
+.thumbnail-glow {
   box-shadow: rgba(255, 255, 255, 1) 0px 0px 8px 3px;
 }
 [class^="thumbnail__item"] img {

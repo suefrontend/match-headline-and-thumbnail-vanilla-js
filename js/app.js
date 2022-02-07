@@ -54,13 +54,15 @@ async function renderThumbnails() {
   // 3. create elements for four thumbnails
   thumbnailIndices.forEach((el, index) => {    
     const li = document.createElement('li');
-    li.classList.add(`thumbnail__item-${el}`, 'thumbnail-zoom');
     const figure = document.createElement('figure');
-    figure.classList.add('thumbnail__item__img');
 		const img = document.createElement('img');
-    img.src = res.items[el].thumbnail;
 		const span = document.createElement('span');
+    
+    li.classList.add(`thumbnail__item-${el}`, 'thumbnail-zoom');
+    figure.classList.add('thumbnail__item__img');
     span.classList.add('thumbnail__item__text')
+    
+    img.src = res.items[el].thumbnail;
 		span.innerHTML = ' ';
 
 		li.appendChild(figure);
@@ -76,38 +78,40 @@ async function renderThumbnails() {
 
 thumbnailsContainer.addEventListener('click', function(e) {
 
+  let thumbnailItem = e.target.parentNode.parentNode;
+
   if(isPlaying) {
     
     // TODO: add condition when fire thumbnail click event
-    if(e.target.parentNode.parentNode.className.includes(indexOfAnswer)) {
+    if(thumbnailItem.className.includes(indexOfAnswer)) {
     
         // TODO: change text in <span>
-        e.target.parentNode.classList.add('thumbnail-overlay')
+        e.target.parentNode.classList.add('thumbnail-glow')
         
-        e.target.parentNode.parentNode.children[1].textContent += 'Correct! Click for Detail';   
+        thumbnailItem.children[1].textContent += 'Correct! Click for Detail';   
 
-        e.target.parentNode.parentNode.classList.remove('thumbnail-zoom');
-        e.target.parentNode.parentNode.classList.add('thumbnail-bigger');
+        thumbnailItem.classList.remove('thumbnail-zoom');
+        thumbnailItem.classList.add('thumbnail-bigger');
         
-        Array.from(e.target.parentNode.parentNode.parentNode.children).forEach(el => {
+        Array.from(thumbnailItem.parentNode.children).forEach(el => {
 
           if(!el.className.includes(indexOfAnswer)) {
             el.classList.remove('thumbnail-zoom')
             el.classList.add('thumbnail-no-pointer')
           }
         })
-        e.target.parentNode.parentNode.classList.remove('thumbnail-pointer');
+        thumbnailItem.classList.remove('thumbnail-pointer');
         
         isPlaying = false;
         
-        e.target.parentNode.parentNode.addEventListener('click', function() {
+        thumbnailItem.addEventListener('click', function() {
           render(indexOfAnswer);
         })    
       } else {
-        e.target.parentNode.parentNode.classList.remove('thumbnail-zoom');
-        e.target.parentNode.parentNode.classList.add('thumbnail-no-pointer');
-        e.target.parentNode.parentNode.children[1].classList.add('text-lower-opacity');
-        e.target.parentNode.parentNode.children[1].textContent = 'Incorrect';
+        thumbnailItem.classList.remove('thumbnail-zoom');
+        thumbnailItem.classList.add('thumbnail-no-pointer');
+        thumbnailItem.children[1].classList.add('text-lower-opacity');
+        thumbnailItem.children[1].textContent = 'Incorrect';
     }
   }
 })
@@ -175,4 +179,4 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHeadline();
   renderThumbnails();
   generateAnswer();
-})
+});

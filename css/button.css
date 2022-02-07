@@ -1,9 +1,11 @@
-.btn {
+.btn-link {
   display: block;
-  border-radius: 3px;
-  text-align: center;
-  padding: 10px 0;
-  background: linear-gradient(180deg, #d20404 0%, #c30404 50%);
+  line-height: 40px;
   text-decoration: none;
-  color: #fff;
+  color: #fdb4b4;
+  text-shadow: 1px 2px #660000;
+  transition: .3s;
+}
+.btn-link:hover {
+  color: #fff5f5;
 }

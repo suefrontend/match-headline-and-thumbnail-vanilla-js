@@ -1,6 +1,7 @@
 const headline = document.querySelector('.headline__heading');
 const thumbnailsContainer = document.querySelector('.thumbnail__list');
 const detail = document.querySelector('.detail');
+const overlay = document.querySelector('.overlay');
 
 let isPlaying = true;
 
@@ -53,7 +54,7 @@ async function renderThumbnails() {
   // 3. create elements for four thumbnails
   thumbnailIndices.forEach((el, index) => {    
     const li = document.createElement('li');
-    li.classList.add(`thumbnail__item-${el}`);
+    li.classList.add(`thumbnail__item-${el}`, 'thumbnail-zoom');
     const figure = document.createElement('figure');
     figure.classList.add('thumbnail__item__img');
 		const img = document.createElement('img');
@@ -84,13 +85,28 @@ thumbnailsContainer.addEventListener('click', function(e) {
         e.target.parentNode.classList.add('thumbnail-overlay')
         
         e.target.parentNode.parentNode.children[1].textContent += 'Correct! Click for Detail';   
+
+        e.target.parentNode.parentNode.classList.remove('thumbnail-zoom');
+        e.target.parentNode.parentNode.classList.add('thumbnail-bigger');
+        
+        Array.from(e.target.parentNode.parentNode.parentNode.children).forEach(el => {
+
+          if(!el.className.includes(indexOfAnswer)) {
+            el.classList.remove('thumbnail-zoom')
+            el.classList.add('thumbnail-no-pointer')
+          }
+        })
+        e.target.parentNode.parentNode.classList.remove('thumbnail-pointer');
+        
         isPlaying = false;
-  
-        e.target.parentNode.parentNode.children[1].addEventListener('click', function() {
+        
+        e.target.parentNode.parentNode.addEventListener('click', function() {
           render(indexOfAnswer);
         })    
       } else {
-        e.target.parentNode.parentNode.children[1].classList.add('text-lower-opacity')
+        e.target.parentNode.parentNode.classList.remove('thumbnail-zoom');
+        e.target.parentNode.parentNode.classList.add('thumbnail-no-pointer');
+        e.target.parentNode.parentNode.children[1].classList.add('text-lower-opacity');
         e.target.parentNode.parentNode.children[1].textContent = 'Incorrect';
     }
   }
@@ -109,23 +125,28 @@ async function render(answer) {
   const detailImg = desc.match(/<img[^>]+>/gi);
   const detailTxt = desc.match(/<p>(.*?)<\/p>/g);
 
+  detail.classList.add('visible');
+  
   const markup = `
-    <button class="btn-close" onClick="resetQuiz()">X CLOSE</button>
-    <div class="detail__img">
-      ${detailImg}
+  <div class="detail__img">
+    ${detailImg}
+    <svg class="icon icon-cross" onClick="resetQuiz()">
+      <use xlink:href="images/sprite.svg#icon-cancel-circle"></use>
+    </svg>
+  </div>
+  <div class="detail__content">
+    <span class="detail__date"> ${data[answer].pubDate}</span>
+    <h3 class="detail__heading">${data[answer].title}</h3>
+    ${detailTxt}
+    <div class="detail__link">
+      <a class="btn btn-link" href=${data[answer].link} target="_blank">Read on CBC website</a>
     </div>
-    <div class="detail__content">
-      <span class="detail__date"> ${data[answer].pubDate}</span>
-      <h3 class="detail__heading">${data[answer].title}</h3>
-      ${detailTxt}
-      <div class="detail__link">
-        <a class="btn btn-link" href=${data[answer].link} target="_blank">Read on CBC website</a>
-      </div>
-    </div>
+  </div>
   `;
-
+  
   detail.innerHTML += markup;
-
+  overlay.classList.add('visible');
+  
 }
 
 function generateAnswer() {
@@ -133,8 +154,14 @@ function generateAnswer() {
   return indexOfAnswer;
 }
 
+overlay.addEventListener('click', function() {
+  resetQuiz();
+})
+
 function resetQuiz() {
+  overlay.classList.remove('visible');
   detail.innerHTML = '';
+  detail.classList.remove('visible');
   headline.innerHTML = ''
   thumbnailsContainer.innerHTML = ''
 

@@ -10,6 +10,7 @@ body {
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   line-height: 1.6;
+  overflow: hidden;
 }
 ol, ul {
   list-style-type: none;

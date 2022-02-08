@@ -65,3 +65,41 @@
   text-shadow: 2px 2px #4d0000;
   color: #ffa3a3;
 }
+@media (max-width: 1023px) {
+  body {
+    overflow: auto;
+  }
+  .container {
+    height: 100vh;
+    overflow: auto;
+    margin: 30px 0;
+  }
+  .content {
+    flex-direction: column;
+    height: auto;
+  }
+  .headline {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+  }
+  .thumbnail {
+    width: 100%;
+  }
+  .headline__heading {
+    line-height: 3rem;
+  }
+  .headline__text {
+    margin-top: 10px;
+  }
+ }
+
+@media (max-width: 640px) {}
+
+@media (min-width: 768px) and (max-width: 1023px) { }
+
+@media (min-width: 1024px) { }
+
+@media (min-width: 1280px) { }
+
+@media (min-width: 1536px) { }

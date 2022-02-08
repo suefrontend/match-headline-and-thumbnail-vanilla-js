@@ -57,3 +57,11 @@
 .text-lower-opacity {
   opacity: 0.5;
 }
+@media (max-width: 1023px) {
+  .thumbnail__list {
+    width: 95%;
+  }
+  [class^="thumbnail__item-"] {
+    width: 48.5%;
+  }
+}

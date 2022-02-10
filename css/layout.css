@@ -66,12 +66,10 @@
   text-shadow: 2px 2px #4d0000;
   color: #ffa3a3;
 }
-@media (max-width: 1023px) {
- }
 
 @media (max-width: 640px) {}
 
-@media (max-width: 767px) { 
+@media (max-width: 1024px) { 
   .container {
     overflow-y: auto;
 
@@ -101,3 +99,26 @@
 @media (min-width: 1280px) { }
 
 @media (min-width: 1536px) { }
+
+@media (min-width: 1280px) { 
+  .container {
+    width: 90vw;
+    height: auto;
+  }
+  .content {
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    height: auto;
+  }
+  .headline {
+    width: 30%;
+    height: auto;
+    text-align: right;
+    padding: 0 25px 0 25px;
+  }
+  .thumbnail {
+    width: 70%;
+    height: auto;
+  }
+}

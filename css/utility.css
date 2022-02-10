@@ -4,3 +4,6 @@
 .visible {
   display: block;
 }
+.text-lower-opacity {
+  opacity: 0.5;
+}

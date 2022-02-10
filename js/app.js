@@ -79,25 +79,28 @@ async function renderThumbnails() {
 thumbnailsContainer.addEventListener('click', function(e) {
 
   let thumbnailItem = e.target.parentNode.parentNode;
+  console.log("thumbnailItem", thumbnailItem)
 
   if(isPlaying) {
     
     // TODO: add condition when fire thumbnail click event
     if(thumbnailItem.className.includes(indexOfAnswer)) {
-    
         // TODO: change text in <span>
         e.target.parentNode.classList.add('thumbnail-glow')
         
         thumbnailItem.children[1].textContent += 'Correct! Click for Detail';   
 
         thumbnailItem.classList.remove('thumbnail-zoom');
-        thumbnailItem.classList.add('thumbnail-bigger');
+        // thumbnailItem.classList.add('thumbnail-bigger');
         
         Array.from(thumbnailItem.parentNode.children).forEach(el => {
 
           if(!el.className.includes(indexOfAnswer)) {
-            el.classList.remove('thumbnail-zoom')
-            el.classList.add('thumbnail-no-pointer')
+
+            console.log("el", el)
+
+            el.parentNode.classList.remove('thumbnail-zoom');
+            el.parentNode.classList.add('thumbnail-no-pointer');
           }
         })
         thumbnailItem.classList.remove('thumbnail-pointer');
@@ -109,8 +112,7 @@ thumbnailsContainer.addEventListener('click', function(e) {
         })    
       } else {
         thumbnailItem.classList.remove('thumbnail-zoom');
-        thumbnailItem.classList.add('thumbnail-no-pointer');
-        thumbnailItem.children[1].classList.add('text-lower-opacity');
+        thumbnailItem.classList.add('thumbnail-no-pointer', 'wrong-answer');
         thumbnailItem.children[1].textContent = 'Incorrect';
     }
   }

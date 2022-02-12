@@ -78,44 +78,45 @@ async function renderThumbnails() {
 
 thumbnailsContainer.addEventListener('click', function(e) {
 
-  let thumbnailItem = e.target.parentNode.parentNode;
-  console.log("thumbnailItem", thumbnailItem)
+  if(e.target.className.includes('thumbnail__item__img')) {
+    console.log("e.target", e.target)
 
-  if(isPlaying) {
+    let thumbnailItem = e.target.parentNode;
     
-    // TODO: add condition when fire thumbnail click event
-    if(thumbnailItem.className.includes(indexOfAnswer)) {
+    if(isPlaying) {
+      
+      // TODO: add condition when fire thumbnail click event
+      if(e.target.parentNode.className.includes(indexOfAnswer)) {
+        
         // TODO: change text in <span>
         e.target.parentNode.classList.add('thumbnail-glow')
-        
-        thumbnailItem.children[1].textContent += 'Correct! Click for Detail';   
-
-        thumbnailItem.classList.remove('thumbnail-zoom');
-        // thumbnailItem.classList.add('thumbnail-bigger');
-        
-        Array.from(thumbnailItem.parentNode.children).forEach(el => {
-
-          if(!el.className.includes(indexOfAnswer)) {
-
-            console.log("el", el)
-
-            el.parentNode.classList.remove('thumbnail-zoom');
-            el.parentNode.classList.add('thumbnail-no-pointer');
-          }
-        })
-        thumbnailItem.classList.remove('thumbnail-pointer');
-        
-        isPlaying = false;
-        
-        thumbnailItem.addEventListener('click', function() {
-          render(indexOfAnswer);
-        })    
-      } else {
-        thumbnailItem.classList.remove('thumbnail-zoom');
-        thumbnailItem.classList.add('thumbnail-no-pointer', 'wrong-answer');
-        thumbnailItem.children[1].textContent = 'Incorrect';
+          
+          thumbnailItem.children[1].textContent += 'Correct! Click for Detail';   
+  
+          thumbnailItem.classList.remove('thumbnail-zoom');
+          
+          Array.from(thumbnailItem.parentNode.children).forEach(el => {
+  
+            if(!el.className.includes(indexOfAnswer)) {
+    
+              el.classList.remove('thumbnail-zoom');
+              el.classList.add('thumbnail-no-pointer');
+            }
+          })
+          thumbnailItem.classList.remove('thumbnail-pointer');
+          
+          isPlaying = false;
+          
+          thumbnailItem.addEventListener('click', function() {
+            render(indexOfAnswer);
+          })    
+        } else {
+          thumbnailItem.classList.remove('thumbnail-zoom');
+          thumbnailItem.classList.add('thumbnail-no-pointer', 'wrong-answer');
+          thumbnailItem.children[1].textContent = 'Incorrect';
+      }
     }
-  }
+  }  
 })
 
 

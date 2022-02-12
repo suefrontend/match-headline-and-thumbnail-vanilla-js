@@ -98,8 +98,6 @@
 
 @media (min-width: 1280px) { }
 
-@media (min-width: 1536px) { }
-
 @media (min-width: 1280px) { 
   .container {
     width: 90vw;
@@ -120,5 +118,14 @@
   .thumbnail {
     width: 70%;
     height: auto;
+  }
+}
+
+@media (min-width: 1536px) { 
+  .container, .content {
+    width: 80vw;
+  }
+  .headline__heading {
+    font-size: 2.5vw;
   }
 }

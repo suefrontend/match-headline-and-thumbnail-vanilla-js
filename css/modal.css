@@ -74,6 +74,9 @@ use {
   .detail {
     width: 90vw;
   }
+  .detail__img {
+    height: auto;
+  }
   .detail__img img {
     height: auto;
   }

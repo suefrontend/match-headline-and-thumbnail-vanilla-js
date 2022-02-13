@@ -71,3 +71,8 @@ use {
   display: none;
   transition: .3s;
 }
+@media (max-width: 460px) {
+  .detail {
+    width: 90vw;
+  }
+}

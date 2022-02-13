@@ -157,8 +157,8 @@
     font-size: 2.5vw;
   }
 }
-@media (max-width: 639px) {
+@media (max-width: 479px) {
   .headline__heading {
-    font-size: 4vw;
+    font-size: 5vw;
   }
 }

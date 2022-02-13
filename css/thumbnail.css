@@ -13,12 +13,12 @@
   cursor: pointer;
   position: relative;
 }
-.thumbnail-zoom {  
+/* .thumbnail-zoom {  
   transition: all .3s ease-in-out;
-}
-.thumbnail-zoom:hover {
+} */
+/* .thumbnail-zoom:hover {
   transform: scale(1.05);
-}
+} */
 /* .thumbnail-bigger {
   transform: scale(1.05);
 } */
@@ -90,7 +90,7 @@
   .thumbnail-no-pointer {
     transform: none;     
   }
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   .container, .content {
     height: 96vh;
   }

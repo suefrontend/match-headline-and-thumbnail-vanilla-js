@@ -58,8 +58,8 @@ async function renderThumbnails() {
 		const img = document.createElement('img');
 		const span = document.createElement('span');
     
-    li.classList.add(`thumbnail__item-${el}`, 'thumbnail-zoom');
-    figure.classList.add('thumbnail__item__img');
+    li.classList.add(`thumbnail__item-${el}`);
+    figure.classList.add('thumbnail__item__img', 'thumbnail__item__img-clickable');
     span.classList.add('thumbnail__item__text')
     
     img.src = res.items[el].thumbnail;
@@ -80,45 +80,47 @@ thumbnailsContainer.addEventListener('click', function(e) {
 
   let thumbnailItem;
 
-  if(e.target.className === 'thumbnail__item__img') {    
-    thumbnailItem = e.target.parentNode;    
-  } else if(e.target.className.includes('thumbnail__item-')) {    
-    thumbnailItem = e.target;
-  } else if(e.target.className.includes('thumbnail__item__text')) {
-    return;
-  }
-
   if(isPlaying) {
+
+      if(e.target.className.includes('thumbnail__item__img')) {    
+        thumbnailItem = e.target.parentNode;    
+      } else if(e.target.className.includes('thumbnail__item-')) {    
+        thumbnailItem = e.target;
+      } else if(e.target.className.includes('thumbnail__item__text')) {
+        return;
+      } else {
+        thumbnailItem = e.target.parentNode.parentNode;
+      }
       
     // TODO: add condition when fire thumbnail click event
     if(thumbnailItem.className.includes(indexOfAnswer)) {
       
         // TODO: change text in <span>
-        thumbnailItem.classList.add('thumbnail-glow')
+        thumbnailItem.classList.add('thumbnail-glow');
           
         thumbnailItem.children[1].textContent += 'Correct! Click for Detail';   
 
-        thumbnailItem.classList.remove('thumbnail-zoom');
         thumbnailItem.classList.add('black-out');
         
         Array.from(thumbnailItem.parentNode.children).forEach(el => {
-
+          // make non-answer thumbnails unclickable
           if(!el.className.includes(indexOfAnswer)) {
-
-            el.classList.add('thumbnail-no-pointer', 'black-out');
+            el.classList.add('thumbnail-no-pointer');
+            el.children[0].classList.remove('thumbnail__item__img-clickable');
           }
         })
-
+        
         thumbnailItem.classList.remove('thumbnail-pointer');
         
         isPlaying = false;
         
+        // show modal window
         thumbnailItem.addEventListener('click', function() {
           render(indexOfAnswer);
         })
-
-      } else {
-        thumbnailItem.classList.remove('thumbnail-zoom');
+      } 
+      
+      else { // when you select wrong thumbnails        
         thumbnailItem.classList.add('thumbnail-no-pointer', 'black-out');
         thumbnailItem.children[1].textContent = 'Incorrect';
     }

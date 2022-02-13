@@ -82,7 +82,7 @@
     height: 100%;
     top: 0;
   }
-  .wrong-answer .thumbnail__item__img:after {
+  .black-out .thumbnail__item__img:after {
     height: 100%;
     top: 0;
   }

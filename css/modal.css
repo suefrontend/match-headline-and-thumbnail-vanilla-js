@@ -13,7 +13,6 @@
 }
 .detail__img {
   height: 259px;
-  background: blue;
   position: relative;
 }
 .detail__img img {
@@ -75,7 +74,7 @@ use {
   .detail {
     width: 90vw;
   }
-  .detail__img {
+  .detail__img img {
     height: auto;
   }
 }

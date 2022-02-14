@@ -65,7 +65,7 @@
   }
   .thumbnail__item__img {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
   }
   .thumbnail__item__img:after {
     position: absolute;
@@ -108,5 +108,9 @@
   [class^="thumbnail__item-"]:nth-child(1),
   [class^="thumbnail__item-"]:nth-child(2) {
     margin-bottom: 0;
+  }
+  .thumbnail__item__img {
+    display: flex;
+    align-items: center;
   }
 }

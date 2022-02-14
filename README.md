@@ -1,6 +1,6 @@
-<h1 align="center">Match Headline and Thumbnail - quiz app</h1>
+<h1 align="center">Match Headline and Thumbnail</h1>
 <h4 align="center">Description comes here</h4>
-
+<img src="images/app-image.jpg" align="center">
 
 ## Introduction
 
@@ -10,7 +10,7 @@
 
 ## Live Demo
 
-[Click here](https://suefrontend.github.io/match-headline-and-thumbnail-vanilla-js/)
+Live demo is available [here](https://suefrontend.github.io/match-headline-and-thumbnail-vanilla-js/)
 
 
 ## More Features to Add

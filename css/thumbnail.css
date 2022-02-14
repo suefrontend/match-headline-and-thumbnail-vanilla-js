@@ -65,7 +65,6 @@
   }
   .thumbnail__item__img {
     position: relative;
-    /* display: inline-block; */
   }
   .thumbnail__item__img:after {
     position: absolute;

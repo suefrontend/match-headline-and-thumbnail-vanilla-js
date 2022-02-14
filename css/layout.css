@@ -67,13 +67,7 @@
   color: #ffa3a3;
 }
 
-
-
 @media (max-width: 1024px) { 
-  .container {
-    /* overflow-y: auto; */
-
-  }
   .content {
     width: 90vmin;
   }
@@ -103,14 +97,6 @@
     height: auto;
   }
  }
-
-@media (min-width: 1280px) { }
-
-@media (min-width: 640px) and  (max-width: 1023px) {
-  /* .headline__heading {
-    font-size: 5vw;
-  } */
-}
 
 @media (min-width: 640px) and (max-width: 1279px) {
   .container {

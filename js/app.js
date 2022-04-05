@@ -21,128 +21,128 @@ async function renderHeadline() {
 
 	const fragment = document.createDocumentFragment();
 
-  // TODO: display just one headline at random
+	// TODO: display just one headline at random
 
-  // 1. generate a random integer in the range of 0 to 9
-  headline.innerHTML = data[indexOfAnswer].title;
-  
+	// 1. generate a random integer in the range of 0 to 9
+	headline.innerHTML = data[indexOfAnswer].title;
 }
 
 async function renderThumbnails() {
 	const res = await fetchData();
 	const fragment = document.createDocumentFragment();
 
-  // TODO: display 4 random thumbnails (one of the thumbnail must be corresponding to the headline)
-  
-  // 1. create an array with 9 random numbers without duplicate
-  const indices = [indexOfAnswer];
-  const numOfTotalThumbnails = 10;
-  
-  for (let i = 0; i < numOfTotalThumbnails; i++) {
-    let randomThumbnailIndex = Math.floor(Math.random() * 9);
-        
-    if(!indices.includes(randomThumbnailIndex)) {
-      indices.push(randomThumbnailIndex)
-    }
-  }
+	// TODO: display 4 random thumbnails (one of the thumbnail must be corresponding to the headline)
 
-  const thumbnailIndices = indices.slice(0, 4)
-  
-  // 2. shuffle the array
-  thumbnailIndices.sort(() => Math.random() - 0.5)
-  
-  // 3. create elements for four thumbnails
-  thumbnailIndices.forEach((el, index) => {    
-    const li = document.createElement('li');
-    const figure = document.createElement('figure');
+	// 1. create an array with 9 random numbers without duplicate
+	const indices = [indexOfAnswer];
+	const numOfTotalThumbnails = 10;
+
+	for (let i = 0; i < numOfTotalThumbnails; i++) {
+		let randomThumbnailIndex = Math.floor(Math.random() * 9);
+
+		if (!indices.includes(randomThumbnailIndex)) {
+			indices.push(randomThumbnailIndex);
+		}
+	}
+
+	const thumbnailIndices = indices.slice(0, 4);
+
+	// 2. shuffle the array
+	thumbnailIndices.sort(() => Math.random() - 0.5);
+
+	// 3. create elements for four thumbnails
+	thumbnailIndices.forEach((el, index) => {
+		const li = document.createElement('li');
+		const figure = document.createElement('figure');
 		const img = document.createElement('img');
 		const span = document.createElement('span');
-    
-    li.classList.add(`thumbnail__item-${el}`);
-    figure.classList.add('thumbnail__item__img', 'thumbnail__item__img-clickable');
-    span.classList.add('thumbnail__item__text')
-    
-    img.src = res.items[el].thumbnail;
+
+		li.classList.add(`thumbnail__item-${el}`);
+		figure.classList.add(
+			'thumbnail__item__img',
+			'thumbnail__item__img-clickable'
+		);
+		span.classList.add('thumbnail__item__text');
+
+		img.src = res.items[el].thumbnail;
 		span.innerHTML = ' ';
 
 		li.appendChild(figure);
-    figure.appendChild(img);
+		figure.appendChild(img);
 		li.appendChild(span);
 		fragment.appendChild(li);
-  })  
+	});
 	thumbnailsContainer.appendChild(fragment);
 }
 
-
 // TODO: add click events to thumbnails
 
-thumbnailsContainer.addEventListener('click', function(e) {
+thumbnailsContainer.addEventListener('click', function (e) {
+	let thumbnailItem;
 
-  let thumbnailItem;
+	if (isPlaying) {
+		if (e.target === e.currentTarget) {
+			console.log('ul was clicked');
+			return;
+		}
 
-  if(isPlaying) {
+		if (e.target.className.includes('thumbnail__item__img')) {
+			thumbnailItem = e.target.parentNode;
+		} else if (e.target.className.includes('thumbnail__item-')) {
+			thumbnailItem = e.target;
+		} else if (e.target.className.includes('thumbnail__item__text')) {
+			return;
+		} else {
+			thumbnailItem = e.target.parentNode.parentNode;
+		}
 
-      if(e.target.className.includes('thumbnail__item__img')) {    
-        thumbnailItem = e.target.parentNode;    
-      } else if(e.target.className.includes('thumbnail__item-')) {    
-        thumbnailItem = e.target;
-      } else if(e.target.className.includes('thumbnail__item__text')) {
-        return;
-      } else {
-        thumbnailItem = e.target.parentNode.parentNode;
-      }
-      
-    // TODO: add condition when fire thumbnail click event
-    if(thumbnailItem.className.includes(indexOfAnswer)) {
-      
-        // TODO: change text in <span>
-        thumbnailItem.classList.add('thumbnail-glow');
-          
-        thumbnailItem.children[1].textContent += 'Correct! Click for Detail';   
+		// TODO: add condition when fire thumbnail click event
+		if (thumbnailItem.className.includes(indexOfAnswer)) {
+			// TODO: change text in <span>
+			thumbnailItem.classList.add('thumbnail-glow');
 
-        thumbnailItem.classList.add('black-out');
-        
-        Array.from(thumbnailItem.parentNode.children).forEach(el => {
-          // make non-answer thumbnails unclickable
-          if(!el.className.includes(indexOfAnswer)) {
-            el.classList.add('thumbnail-no-pointer');
-            el.children[0].classList.remove('thumbnail__item__img-clickable');
-          }
-        })
-        
-        thumbnailItem.classList.remove('thumbnail-pointer');
-        
-        isPlaying = false;
-        
-        // show modal window
-        thumbnailItem.addEventListener('click', function() {
-          render(indexOfAnswer);
-        })
-      } 
-      
-      else { // when you select wrong thumbnails        
-        thumbnailItem.classList.add('thumbnail-no-pointer', 'black-out');
-        thumbnailItem.children[1].textContent = 'Incorrect';
-    }
-  }  
-})
+			thumbnailItem.children[1].textContent += 'Correct! Click for Detail';
 
+			thumbnailItem.classList.add('black-out');
+
+			Array.from(thumbnailItem.parentNode.children).forEach((el) => {
+				// make non-answer thumbnails unclickable
+				if (!el.className.includes(indexOfAnswer)) {
+					el.classList.add('thumbnail-no-pointer');
+					el.children[0].classList.remove('thumbnail__item__img-clickable');
+				}
+			});
+
+			thumbnailItem.classList.remove('thumbnail-pointer');
+
+			isPlaying = false;
+
+			// show modal window
+			thumbnailItem.addEventListener('click', function () {
+				render(indexOfAnswer);
+			});
+		} else {
+			// when you select wrong thumbnails
+			thumbnailItem.classList.add('thumbnail-no-pointer', 'black-out');
+			thumbnailItem.children[1].textContent = 'Incorrect';
+		}
+	}
+});
 
 // TODO: display news detail when correct thumbnail was clicked
 
 async function render(answer) {
+	const res = await fetchData();
+	const data = res.items;
 
-  const res = await fetchData()
-  const data = res.items;
-  
-  const desc = data[answer].description;
+	const desc = data[answer].description;
 
-  const detailImg = desc.match(/<img[^>]+>/gi);
-  const detailTxt = desc.match(/<p>(.*?)<\/p>/g);
+	const detailImg = desc.match(/<img[^>]+>/gi);
+	const detailTxt = desc.match(/<p>(.*?)<\/p>/g);
 
-  detail.classList.add('visible');
-  
-  const markup = `
+	detail.classList.add('visible');
+
+	const markup = `
   <div class="detail__img">
     ${detailImg}
     <svg class="icon icon-cross" onClick="resetQuiz()">
@@ -158,36 +158,35 @@ async function render(answer) {
     </div>
   </div>
   `;
-  
-  detail.innerHTML += markup;
-  overlay.classList.add('visible');
-  
+
+	detail.innerHTML += markup;
+	overlay.classList.add('visible');
 }
 
 function generateAnswer() {
-  indexOfAnswer = Math.floor(Math.random() * 10);
-  return indexOfAnswer;
+	indexOfAnswer = Math.floor(Math.random() * 10);
+	return indexOfAnswer;
 }
 
-overlay.addEventListener('click', function() {
-  resetQuiz();
-})
+overlay.addEventListener('click', function () {
+	resetQuiz();
+});
 
 function resetQuiz() {
-  overlay.classList.remove('visible');
-  detail.innerHTML = '';
-  detail.classList.remove('visible');
-  headline.innerHTML = ''
-  thumbnailsContainer.innerHTML = ''
+	overlay.classList.remove('visible');
+	detail.innerHTML = '';
+	detail.classList.remove('visible');
+	headline.innerHTML = '';
+	thumbnailsContainer.innerHTML = '';
 
-  renderHeadline();
-  renderThumbnails();
-  generateAnswer();
-  isPlaying = true;
+	renderHeadline();
+	renderThumbnails();
+	generateAnswer();
+	isPlaying = true;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderHeadline();
-  renderThumbnails();
-  generateAnswer();
+	renderHeadline();
+	renderThumbnails();
+	generateAnswer();
 });
